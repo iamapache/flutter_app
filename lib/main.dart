@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/view/AppBar.dart';
-import 'package:flutter_app/view/CustApp.dart';
+import 'package:flutter_app/page/StaticNavigatorPage.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -10,13 +10,69 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        primaryColor: Colors.blue,
-        backgroundColor: Colors.blue
+          primarySwatch: Colors.blue,
+          primaryColor: Colors.blue,
+          backgroundColor: Colors.blue),
+      routes: <String, WidgetBuilder>{
+        'router/new_page': (_) => StaticNavigatorPage()
+      },
+      home: FlutterDemo(),
+    );
+  }
+}
+
+class FlutterDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Flutter进阶之旅"),
       ),
-      home: CustApp(),
+      body: new Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            RaisedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        //_代表参数为空
+                        builder: (context) => new StaticNavigatorPage(
+                              username: "xiedong",
+                              password: "123456",
+                            ))).then((value) {
+                  showDialog(
+                      context: context,
+                      child: new AlertDialog(
+                        content: new Text(value),
+                      ));
+                });
+              },
+              child: Text('dong态路由跳页'),
+            ),
+            RaisedButton(
+              onPressed: () async {
+//                Navigator.pushNamed(context, 'router/new_page', arguments: "sb")
+//                    .then((value) {
+//                  showDialog(
+//                      context: context,
+//                      child: new AlertDialog(
+//                        content: new Text(value),
+//                      ));
+//                }); //这里一定要保证跳页的路由路径跟上面注册的路径一致
+
+                var result = await Navigator.pushNamed(
+                    context, 'router/new_page',
+                    arguments: "sb");
+                print(result);
+              },
+              child: Text('静态路由跳页'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -25,13 +81,13 @@ class TutorialHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-
+      backgroundColor: Colors.green,
       appBar: new AppBar(
-        leading: new IconButton(
-            //Icons是一个包含多个可用图标的列表
-            icon: new Icon(Icons.menu),
-            tooltip: "导航菜单",
-            onPressed: null),
+        leading: GestureDetector(
+            child: Icon(Icons.print),
+            onTap: () {
+              Navigator.of(context).pop();
+            }),
         title: new Text("京西商城"),
         //在标题之后显示的组件 注意是数组形式 可以有多个widget
         actions: <Widget>[
