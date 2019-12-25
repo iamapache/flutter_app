@@ -16,7 +16,7 @@ class HomeNavigator extends StatelessWidget {
             builder = (BuildContext context) => new HomePage();
             break;
           case 'demo1':
-            builder = (BuildContext context) => new Profile();
+            builder = (BuildContext context) => new ArticleListScreen();
             break;
           default:
             throw new Exception('Invalid route: ${settings.name}');

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'HomeNavigator.dart';
+
 class Home extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -10,7 +12,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
   final List<Widget> _children = [
-    new PlaceholderWidget('Home'),
+    new HomeNavigator(),
     new PlaceholderWidget('demo1'),
   ];
 
